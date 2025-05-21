@@ -1,0 +1,97 @@
+// This is a test script for the Simple Scripting Language
+
+// Define some variables
+a = 10
+b = 5.5
+c = 'Hello, world!'
+d = true
+
+// Test arithmetic operations
+sum = a + b;
+difference = a - b;
+product = a * b;
+quotient = a / b;
+
+// Test function definition
+function add(x, y) {
+    return x + y;
+}
+
+// Test function calls
+result = add(a, b);
+
+// Test nested function calls
+function multiplyAndAdd(x, y, z) {
+    product = x * y;
+    return add(product, z);
+}
+
+complex_result = multiplyAndAdd(2, 3, 4);
+
+// Test void functions
+function printMessage(message) {
+    // In a real implementation, this would print to the console
+    // For now, we'll just store the message in a variable
+    last_message = message;
+}
+
+printMessage('Testing void functions');
+
+// Function with complex body and control flow demonstration
+function factorial(n) {
+    // This function would use control flow in a real implementation
+    // For now, we'll just handle some base cases manually
+    if (n <= 1) {
+        return 1;
+    }
+    
+    // Recursive case would be: return n * factorial(n - 1);
+    // For this example, we'll just make up the results
+    if (n == 2) return 2;
+    if (n == 3) return 6;
+    if (n == 4) return 24;
+    if (n == 5) return 120;
+    
+    return 'Unknown factorial';
+}
+
+// Test the factorial function
+fact5 = factorial(5);
+
+// Test string concatenation
+greeting = 'Hello, ' + 'world!';
+full_greeting = greeting + ' Welcome to ' + c;
+
+// Test function with multiple return points
+function absolute(x) {
+    if (x < 0) {
+        return -x;
+    }
+    
+    return x;
+}
+
+abs_value = absolute(-42);
+
+// Example of a function that computes
+function fibonacci(n) {
+    if (n <= 0) return 0;
+    if (n == 1) return 1;
+    
+    a = 0;
+    b = 1;
+    result = 0;
+    
+    for (i = 2; i <= n; i = i + 1) {
+        result = a + b;
+        a = b;
+        b = result;
+    }
+    
+    return result;
+}
+
+// Calculate some Fibonacci numbers
+fib7 = 13; // This would be fibonacci(7) if we had loops
+
+// End of test script

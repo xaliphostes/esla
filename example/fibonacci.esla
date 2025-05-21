@@ -1,0 +1,11 @@
+// Fibonacci function
+function fibonacci(n) {
+    if (n <= 1) return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+}
+
+// Calculation
+fib5 = fibonacci(5)  // Returns 5
+
+// String operations
+message = 'The result is: ' + fib5
