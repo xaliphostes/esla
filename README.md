@@ -1,7 +1,8 @@
 # ESLA: Embedded Scripting Language
 
+![C++](https://img.shields.io/badge/c++-%2300599C.svg)
+[![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg)](https://github.com/username/esla/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![CMake](https://github.com/username/esla/workflows/CMake/badge.svg)](https://github.com/username/esla/actions)
 [![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](https://semver.org)
 
 ESLA (Embedded Scripting Language) is a lightweight, embeddable scripting language designed for integration into C++ applications. It features a simple syntax, intuitive semantics, and a clean C++ API.
