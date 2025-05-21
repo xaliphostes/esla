@@ -1,8 +1,10 @@
-#include <scripter/Interpreter.h>
-#include <scripter/Environment.h>
-#include <scripter/AST.h>
+#include <esla/Interpreter.h>
+#include <esla/Environment.h>
+#include <esla/AST.h>
 #include <iostream>
 #include <stdexcept>
+
+namespace esla {
 
 // Interpreter implementation
 Interpreter::Interpreter() {
@@ -164,4 +166,6 @@ std::shared_ptr<Value> Interpreter::divide(const std::shared_ptr<Value> &a,
     }
 
     throw std::runtime_error("Operands must be numbers.");
+}
+
 }

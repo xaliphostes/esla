@@ -5,6 +5,8 @@
 #include <string>
 #include <variant>
 
+namespace esla {
+
 // Forward declarations
 struct FunctionObject;
 
@@ -220,3 +222,5 @@ struct FunctionObject {
         : parameters(std::move(params)), body(std::move(body)),
           closure(std::move(closure)) {}
 };
+
+} // namespace esla

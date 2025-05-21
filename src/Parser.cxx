@@ -1,7 +1,9 @@
-#include <scripter/Parser.h>
-#include <scripter/AST.h>
+#include <esla/AST.h>
+#include <esla/Parser.h>
 #include <iostream>
 #include <stdexcept>
+
+namespace esla {
 
 Parser::Parser(const std::vector<Token> &tokens) : tokens(tokens), current(0) {}
 
@@ -241,3 +243,5 @@ std::shared_ptr<Node> Parser::primary() {
 
     throw std::runtime_error("Expected expression.");
 }
+
+} // namespace esla

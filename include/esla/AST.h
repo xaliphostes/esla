@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+namespace esla {
+
 // Forward declarations
 class Interpreter;
 class Environment;
@@ -306,3 +308,5 @@ class ReturnNode : public Node {
      */
     std::string toString() const override;
 };
+
+} // namespace esla

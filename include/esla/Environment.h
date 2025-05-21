@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <vector>
 
+namespace esla {
+
 class Value;
 
 /**
@@ -59,3 +61,5 @@ class Environment {
      */
     std::unordered_map<std::string, std::shared_ptr<Value>> &getValues();
 };
+
+} // namespace esla

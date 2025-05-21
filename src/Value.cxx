@@ -1,6 +1,8 @@
-#include <scripter/Value.h>
+#include <esla/Value.h>
 #include <iomanip>
 #include <sstream>
+
+namespace esla {
 
 std::string Value::toString() const {
     if (isNull())
@@ -192,3 +194,5 @@ std::shared_ptr<Value> divideValues(const std::shared_ptr<Value> &a,
 
     throw std::runtime_error("Cannot divide values of these types");
 }
+
+} // namespace esla

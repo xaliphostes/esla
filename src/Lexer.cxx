@@ -1,11 +1,14 @@
-#include <scripter/Lexer.h>
 #include <cctype>
+#include <esla/Lexer.h>
 #include <iostream>
+
+namespace esla {
 
 Lexer::Lexer(const std::string &source) : source(source) {}
 
 std::vector<Token> Lexer::scanTokens() {
     while (!isAtEnd()) {
+        // We are at the beginning of the next lexeme
         start = current;
         scanToken();
     }
@@ -31,7 +34,9 @@ char Lexer::peekNext() const {
 }
 
 bool Lexer::match(char expected) {
-    if (isAtEnd() || source[current] != expected)
+    if (isAtEnd())
+        return false;
+    if (source[current] != expected)
         return false;
     current++;
     return true;
@@ -46,7 +51,35 @@ void Lexer::scanToken() {
     char c = advance();
     switch (c) {
     case '=':
-        addToken(TokenType::EQUALS);
+        if (match('=')) {
+            addToken(TokenType::EQUAL_EQUAL);
+        } else if (match('>')) {
+            addToken(TokenType::GREATER_EQUAL);
+        } else {
+            addToken(TokenType::EQUALS);
+        }
+        break;
+    case '<':
+        if (match('=')) {
+            addToken(TokenType::LESS_EQUAL);
+        } else {
+            addToken(TokenType::LESS);
+        }
+        break;
+    case '>':
+        if (match('=')) {
+            addToken(TokenType::GREATER_EQUAL);
+        } else {
+            addToken(TokenType::GREATER);
+        }
+        break;
+    case '!':
+        if (match('=')) {
+            addToken(TokenType::NOT_EQUAL);
+        } else {
+            // Handle '!' as an error or add a NOT token type
+            std::cerr << "Unexpected character: !" << std::endl;
+        }
         break;
     case '+':
         addToken(TokenType::PLUS);
@@ -164,7 +197,17 @@ void Lexer::identifier() {
         type = TokenType::FUNCTION;
     } else if (text == "return") {
         type = TokenType::RETURN;
+    } else if (text == "if") {
+        type = TokenType::IF;
+    } else if (text == "else") {
+        type = TokenType::ELSE;
+    } else if (text == "while") {
+        type = TokenType::WHILE;
+    } else if (text == "for") {
+        type = TokenType::FOR;
     }
 
     addToken(type);
 }
+
+} // namespace esla

@@ -1,11 +1,13 @@
-#include <scripter/Interpreter.h>
-#include <scripter/Lexer.h>
-#include <scripter/Parser.h>
+#include <esla/Interpreter.h>
+#include <esla/Lexer.h>
+#include <esla/Parser.h>
 
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
+
+using namespace esla;
 
 /**
  * @brief Runs the given script file.

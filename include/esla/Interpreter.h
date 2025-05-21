@@ -1,12 +1,14 @@
 #pragma once
 
-#include "Node.h"
 #include "AST.h"
+#include "Node.h"
 #include "Value.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+namespace esla {
 
 class Environment;
 
@@ -120,3 +122,5 @@ class Interpreter {
     friend std::shared_ptr<Value>
     LiteralNode::evaluate(Interpreter &interpreter);
 };
+
+} // namespace esla

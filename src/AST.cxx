@@ -1,7 +1,9 @@
-#include <scripter/AST.h>
-#include <scripter/Interpreter.h>
-#include <scripter/Environment.h>
+#include <esla/AST.h>
+#include <esla/Environment.h>
+#include <esla/Interpreter.h>
 #include <sstream>
+
+namespace esla {
 
 // ExpressionStmt implementation
 ExpressionStmt::ExpressionStmt(std::shared_ptr<Node> expression)
@@ -43,9 +45,7 @@ const std::vector<std::shared_ptr<Node>> &Block::getStatements() const {
 LiteralNode::LiteralNode(std::shared_ptr<Value> value)
     : value(std::move(value)) {}
 
-std::shared_ptr<Value> LiteralNode::evaluate(Interpreter &) {
-    return value;
-}
+std::shared_ptr<Value> LiteralNode::evaluate(Interpreter &) { return value; }
 
 std::string LiteralNode::toString() const {
     return value ? value->toString() : "null";
@@ -260,3 +260,5 @@ std::string ReturnNode::toString() const {
         return "return;";
     }
 }
+
+} // namespace esla

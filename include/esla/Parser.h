@@ -6,6 +6,8 @@
 #include <memory>
 #include <initializer_list>
 
+namespace esla {
+
 // Forward declarations
 class Node;
 class FunctionNode;
@@ -74,3 +76,5 @@ private:
     std::shared_ptr<Node> finishCall(std::shared_ptr<Node> callee);
     std::shared_ptr<Node> primary();
 };
+
+}

@@ -1,4 +1,4 @@
-#include <scripter/Node.h>
+#include <esla/Node.h>
 
 // This file is primarily empty because Node is an abstract base class
 // with no concrete implementations.

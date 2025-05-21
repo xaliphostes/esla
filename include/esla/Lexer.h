@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+namespace esla {
+
 /**
  * @class Lexer
  * @brief Converts source code into tokens.
@@ -90,3 +92,5 @@ class Lexer {
      */
     std::vector<Token> scanTokens();
 };
+
+} // namespace esla

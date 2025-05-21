@@ -1,7 +1,9 @@
-#include <scripter/Environment.h>
-#include <scripter/AST.h>
+#include <esla/AST.h>
+#include <esla/Environment.h>
 #include <iostream>
 #include <stdexcept>
+
+namespace esla {
 
 // Environment implementation
 Environment::Environment() : enclosing(nullptr) {}
@@ -47,3 +49,5 @@ std::unordered_map<std::string, std::shared_ptr<Value>> &
 Environment::getValues() {
     return values;
 }
+
+} // namespace esla

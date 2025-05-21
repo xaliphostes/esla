@@ -3,6 +3,8 @@
 #include "Value.h"
 #include <memory>
 
+namespace esla {
+
 // Forward declarations
 class Interpreter;
 
@@ -53,3 +55,5 @@ struct ReturnValue {
     explicit ReturnValue(std::shared_ptr<Value> value)
         : value(std::move(value)) {}
 };
+
+} // namespace esla
