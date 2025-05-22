@@ -1,7 +1,11 @@
-#include <esla/Interpreter.h>
-#include <esla/Environment.h>
 #include <esla/AST.h>
+#include <esla/Environment.h>
+#include <esla/Interpreter.h>
+#include <esla/Lexer.h>
+#include <esla/Parser.h>
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 
 namespace esla {
@@ -168,4 +172,75 @@ std::shared_ptr<Value> Interpreter::divide(const std::shared_ptr<Value> &a,
     throw std::runtime_error("Operands must be numbers.");
 }
 
+std::shared_ptr<Value> Interpreter::evaluate(const std::string &source) {
+    try {
+        // Tokenize the source code
+        Lexer lexer(source);
+        std::vector<Token> tokens = lexer.scanTokens();
+
+        // Parse into AST
+        Parser parser(tokens);
+        auto statement = parser.parse();
+
+        if (!statement) {
+            throw std::runtime_error("Failed to parse expression");
+        }
+
+        // Evaluate the AST
+        return evaluate(statement);
+    } catch (const std::exception &e) {
+        throw std::runtime_error("Evaluation error: " + std::string(e.what()));
+    }
 }
+
+std::shared_ptr<Value> Interpreter::execute(const std::string &source) {
+    try {
+        // Tokenize the source code
+        Lexer lexer(source);
+        std::vector<Token> tokens = lexer.scanTokens();
+
+        // Parse all statements
+        Parser parser(tokens);
+        auto statements = parser.parseAll();
+
+        if (statements.empty()) {
+            return std::make_shared<Value>(); // Return null for empty script
+        }
+
+        // Execute all statements
+        std::shared_ptr<Value> lastResult = std::make_shared<Value>();
+        for (const auto &statement : statements) {
+            lastResult = evaluate(statement);
+        }
+
+        return lastResult;
+    } catch (const std::exception &e) {
+        throw std::runtime_error("Execution error: " + std::string(e.what()));
+    }
+}
+
+std::string Interpreter::evaluateToString(const std::string &source) {
+    auto result = evaluate(source);
+    return result ? result->toString() : "null";
+}
+
+void Interpreter::run(const std::string &source) {
+    execute(source); // Execute and discard the result
+}
+
+std::shared_ptr<Value> Interpreter::executeFile(const std::string &filename) {
+    // Read the file
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        throw std::runtime_error("Could not open file: " + filename);
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string source = buffer.str();
+
+    // Execute the file contents
+    return execute(source);
+}
+
+} // namespace esla

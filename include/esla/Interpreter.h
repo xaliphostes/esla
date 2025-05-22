@@ -35,6 +35,44 @@ class Interpreter {
     std::shared_ptr<Value> evaluate(std::shared_ptr<Node> node);
 
     /**
+     * @brief Evaluates a single expression or statement from source code.
+     * @param source The source code string to evaluate.
+     * @return The value produced by evaluating the expression/statement.
+     * @throws std::runtime_error if parsing or evaluation fails.
+     */
+    std::shared_ptr<Value> evaluate(const std::string &source);
+
+    /**
+     * @brief Executes multiple statements from source code.
+     * @param source The source code string containing multiple statements.
+     * @return The value produced by the last statement, or null if no
+     * statements.
+     * @throws std::runtime_error if parsing or execution fails.
+     */
+    std::shared_ptr<Value> execute(const std::string &source);
+
+    /**
+     * @brief Evaluates source code and returns the result as a string.
+     * @param source The source code to evaluate.
+     * @return String representation of the result.
+     */
+    std::string evaluateToString(const std::string &source);
+
+    /**
+     * @brief Executes source code without returning a value (for statements).
+     * @param source The source code to execute.
+     */
+    void run(const std::string &source);
+
+    /**
+     * @brief Loads and executes a script file.
+     * @param filename Path to the script file.
+     * @return The value produced by the last statement in the file.
+     * @throws std::runtime_error if file cannot be read or execution fails.
+     */
+    std::shared_ptr<Value> executeFile(const std::string& filename);
+
+    /**
      * @brief Executes a block of statements in a new environment.
      * @param statements The statements to execute.
      * @param environment The environment to use.

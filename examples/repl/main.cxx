@@ -1,6 +1,7 @@
 #include <esla/Interpreter.h>
 #include <esla/Lexer.h>
 #include <esla/Parser.h>
+#include <esla/Repl.h>
 
 #include <fstream>
 #include <iostream>
@@ -118,7 +119,9 @@ int main(int argc, char *argv[]) {
         return runFile(argv[1]);
     } else {
         // Run the REPL
-        runRepl();
+        // runRepl();
+        esla::LinenoiseREPL repl;
+        repl.run();
         return 0;
     }
 }
