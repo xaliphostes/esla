@@ -127,6 +127,9 @@ void Lexer::scanToken() {
     case '\'':
         string();
         break;
+    case '.':
+        addToken(TokenType::DOT);
+        break;
     default:
         if (std::isdigit(c)) {
             number();

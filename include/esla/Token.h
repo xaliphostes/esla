@@ -41,6 +41,7 @@ enum class TokenType {
     RBRACE,    // }
     COMMA,     // ,
     SEMICOLON, // ;
+    DOT,       // .
 
     // Keywords
     FUNCTION, // function

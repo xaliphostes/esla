@@ -1,6 +1,7 @@
 #include <esla/AST.h>
 #include <esla/Environment.h>
 #include <esla/Interpreter.h>
+#include <esla/ObjectHandle.h>
 #include <sstream>
 
 namespace esla {
@@ -259,6 +260,69 @@ std::string ReturnNode::toString() const {
     } else {
         return "return;";
     }
+}
+
+std::shared_ptr<Value> MemberAccessNode::evaluate(Interpreter &interpreter) {
+    std::shared_ptr<Value> objValue = object->evaluate(interpreter);
+
+    if (!objValue->isObject()) {
+        throw std::runtime_error("Cannot access member '" + member +
+                                 "' on non-object");
+    }
+
+    auto handle = objValue->getObject();
+    return handle->getProperty(member);
+}
+
+std::string MemberAccessNode::toString() const {
+    return object->toString() + "." + member;
+}
+
+std::shared_ptr<Value> MemberAssignNode::evaluate(Interpreter &interpreter) {
+    std::shared_ptr<Value> objValue = object->evaluate(interpreter);
+    std::shared_ptr<Value> newValue = value->evaluate(interpreter);
+
+    if (!objValue->isObject()) {
+        throw std::runtime_error("Cannot assign member '" + member +
+                                 "' on non-object");
+    }
+
+    auto handle = objValue->getObject();
+    handle->setProperty(member, newValue);
+    return newValue;
+}
+
+std::string MemberAssignNode::toString() const {
+    return object->toString() + "." + member + " = " + value->toString();
+}
+
+std::shared_ptr<Value> MethodCallNode::evaluate(Interpreter &interpreter) {
+    std::shared_ptr<Value> objValue = object->evaluate(interpreter);
+
+    if (!objValue->isObject()) {
+        throw std::runtime_error("Cannot call method '" + method +
+                                 "' on non-object");
+    }
+
+    std::vector<std::shared_ptr<Value>> argValues;
+    for (const auto &arg : arguments) {
+        argValues.push_back(arg->evaluate(interpreter));
+    }
+
+    auto handle = objValue->getObject();
+    return handle->callMethod(method, argValues);
+}
+
+std::string MethodCallNode::toString() const {
+    std::stringstream ss;
+    ss << object->toString() << "." << method << "(";
+    for (size_t i = 0; i < arguments.size(); ++i) {
+        if (i > 0)
+            ss << ", ";
+        ss << arguments[i]->toString();
+    }
+    ss << ")";
+    return ss.str();
 }
 
 } // namespace esla

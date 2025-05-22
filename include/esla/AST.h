@@ -309,4 +309,51 @@ class ReturnNode : public Node {
     std::string toString() const override;
 };
 
+class MemberAccessNode : public Node {
+  private:
+    std::shared_ptr<Node> object;
+    std::string member;
+
+  public:
+    MemberAccessNode(std::shared_ptr<Node> object, const std::string &member)
+        : object(std::move(object)), member(member) {}
+
+    std::shared_ptr<Value> evaluate(Interpreter &interpreter) override;
+    std::string toString() const override;
+
+    const std::string &getMember() const { return member; }
+    std::shared_ptr<Node> getObject() const { return object; }
+};
+
+class MemberAssignNode : public Node {
+  private:
+    std::shared_ptr<Node> object;
+    std::string member;
+    std::shared_ptr<Node> value;
+
+  public:
+    MemberAssignNode(std::shared_ptr<Node> object, const std::string &member,
+                     std::shared_ptr<Node> value)
+        : object(std::move(object)), member(member), value(std::move(value)) {}
+
+    std::shared_ptr<Value> evaluate(Interpreter &interpreter) override;
+    std::string toString() const override;
+};
+
+class MethodCallNode : public Node {
+  private:
+    std::shared_ptr<Node> object;
+    std::string method;
+    std::vector<std::shared_ptr<Node>> arguments;
+
+  public:
+    MethodCallNode(std::shared_ptr<Node> object, const std::string &method,
+                   std::vector<std::shared_ptr<Node>> arguments)
+        : object(std::move(object)), method(method),
+          arguments(std::move(arguments)) {}
+
+    std::shared_ptr<Value> evaluate(Interpreter &interpreter) override;
+    std::string toString() const override;
+};
+
 } // namespace esla

@@ -9,6 +9,7 @@ namespace esla {
 
 // Forward declarations
 struct FunctionObject;
+class ObjectHandle;
 
 /**
  * @class Value
@@ -24,7 +25,8 @@ class Value {
      * @brief Variant type that can hold any of the supported data types.
      */
     using Variant = std::variant<std::monostate, bool, int, double, std::string,
-                                 std::shared_ptr<FunctionObject>>;
+                                 std::shared_ptr<FunctionObject>,
+                                 std::shared_ptr<ObjectHandle>>;
 
   private:
     Variant data;
@@ -64,6 +66,12 @@ class Value {
      * @param func The function object.
      */
     Value(std::shared_ptr<FunctionObject> func) : data(std::move(func)) {}
+
+    /**
+     * @brief Constructs an object handle value.
+     * @param handle The object handle.
+     */
+    Value(std::shared_ptr<ObjectHandle> handle) : data(std::move(handle)) {}
 
     /**
      * @brief Checks if the value is null.
@@ -108,6 +116,10 @@ class Value {
      * @return true if the value is a number, false otherwise.
      */
     bool isNumber() const { return isInt() || isDouble(); }
+
+    bool isObject() const {
+        return std::holds_alternative<std::shared_ptr<ObjectHandle>>(data);
+    }
 
     /**
      * @brief Gets the boolean value.
@@ -162,6 +174,16 @@ class Value {
         if (!isFunction())
             throw std::runtime_error("Value is not a function");
         return std::get<std::shared_ptr<FunctionObject>>(data);
+    }
+
+    /**
+     * @brief Gets the object handle.
+     * @return The object handle.
+     * @throws std::runtime_error if the value is not an object.
+     */
+    std::shared_ptr<ObjectHandle> getObject() const {
+        if (!isObject()) throw std::runtime_error("Value is not an object");
+        return std::get<std::shared_ptr<ObjectHandle>>(data);
     }
 
     /**

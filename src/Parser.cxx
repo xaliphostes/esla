@@ -160,6 +160,11 @@ std::shared_ptr<Node> Parser::assignment() {
         if (auto *varExpr = dynamic_cast<VariableNode *>(expr.get())) {
             std::string name = varExpr->getName();
             return std::make_shared<AssignNode>(name, std::move(value));
+        } else if (auto *memberExpr =
+                       dynamic_cast<MemberAccessNode *>(expr.get())) {
+            return std::make_shared<MemberAssignNode>(memberExpr->getObject(),
+                                                      memberExpr->getMember(),
+                                                      std::move(value));
         }
 
         throw std::runtime_error("Invalid assignment target.");
@@ -195,13 +200,42 @@ std::shared_ptr<Node> Parser::multiplication() {
 }
 
 std::shared_ptr<Node> Parser::call() {
-    auto expr = primary();
+    auto expr = memberAccess(); // Changed from primary()
 
     while (true) {
         if (match(TokenType::LPAREN)) {
             expr = finishCall(std::move(expr));
         } else {
             break;
+        }
+    }
+
+    return expr;
+}
+
+std::shared_ptr<Node> Parser::memberAccess() {
+    auto expr = primary();
+
+    while (match(TokenType::DOT)) {
+        consume(TokenType::IDENTIFIER, "Expected property name after '.'.");
+        std::string member = previous().lexeme;
+
+        // Check if this is a method call
+        if (check(TokenType::LPAREN)) {
+            advance(); // consume '('
+
+            std::vector<std::shared_ptr<Node>> arguments;
+            if (!check(TokenType::RPAREN)) {
+                do {
+                    arguments.push_back(expression());
+                } while (match(TokenType::COMMA));
+            }
+
+            consume(TokenType::RPAREN, "Expected ')' after arguments.");
+            expr = std::make_shared<MethodCallNode>(std::move(expr), member,
+                                                    std::move(arguments));
+        } else {
+            expr = std::make_shared<MemberAccessNode>(std::move(expr), member);
         }
     }
 

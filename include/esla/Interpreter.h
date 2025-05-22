@@ -21,20 +21,6 @@ class Environment;
  * calls, and return values.
  */
 class Interpreter {
-  private:
-    std::shared_ptr<Environment> environment;
-    std::shared_ptr<Environment> globals;
-
-    // Helper functions for operations
-    std::shared_ptr<Value> add(const std::shared_ptr<Value> &a,
-                               const std::shared_ptr<Value> &b);
-    std::shared_ptr<Value> subtract(const std::shared_ptr<Value> &a,
-                                    const std::shared_ptr<Value> &b);
-    std::shared_ptr<Value> multiply(const std::shared_ptr<Value> &a,
-                                    const std::shared_ptr<Value> &b);
-    std::shared_ptr<Value> divide(const std::shared_ptr<Value> &a,
-                                  const std::shared_ptr<Value> &b);
-
   public:
     /**
      * @brief Constructs an Interpreter with a global environment.
@@ -121,6 +107,20 @@ class Interpreter {
     ExpressionStmt::evaluate(Interpreter &interpreter);
     friend std::shared_ptr<Value>
     LiteralNode::evaluate(Interpreter &interpreter);
+
+  private:
+    std::shared_ptr<Environment> environment;
+    std::shared_ptr<Environment> globals;
+
+    // Helper functions for operations
+    std::shared_ptr<Value> add(const std::shared_ptr<Value> &a,
+                               const std::shared_ptr<Value> &b);
+    std::shared_ptr<Value> subtract(const std::shared_ptr<Value> &a,
+                                    const std::shared_ptr<Value> &b);
+    std::shared_ptr<Value> multiply(const std::shared_ptr<Value> &a,
+                                    const std::shared_ptr<Value> &b);
+    std::shared_ptr<Value> divide(const std::shared_ptr<Value> &a,
+                                  const std::shared_ptr<Value> &b);
 };
 
 } // namespace esla

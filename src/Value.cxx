@@ -42,6 +42,10 @@ std::string Value::toString() const {
         return "<function>";
     }
 
+    if (isObject()) {
+        return "<object>";
+    }
+
     return "unknown";
 }
 

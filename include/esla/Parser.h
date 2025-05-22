@@ -75,6 +75,7 @@ private:
     std::shared_ptr<Node> call();
     std::shared_ptr<Node> finishCall(std::shared_ptr<Node> callee);
     std::shared_ptr<Node> primary();
+    std::shared_ptr<Node> memberAccess();
 };
 
 }

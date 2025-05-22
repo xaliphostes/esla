@@ -36,7 +36,8 @@ target_include_directories(esla
 )
 
 # Add examples
-add_subdirectory(example)
+add_subdirectory(examples/repl)
+add_subdirectory(examples/bind_object)
 
 # Install configuration
 # include(GNUInstallDirs)
